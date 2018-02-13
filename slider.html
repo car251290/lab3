@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+<script>
+var mc = 0;
+var posx = 2;
+var posy = 2;
+var pos2x = 2;
+var pos2y = 2;
+var targ = "";
+var start = 0;
+function slidepiece()
+{
+if(start == 1)
+{
+	var evt = window.event
+	var target = evt.target.id
+	var trgbg = document.getElementById(target).getAttribute("background")
+	var placeholder = ''
+	var xa = 0;
+	var ya = 0;
+	var mobx = 0;
+	var moby = 0;
+	var attack = 5;
+	var pos1 = 0;
+	var pos2 = 0;
+	for(x=0;x<3;x++)
+	{
+		for(y=0;y<3;y++)
+		{
+			placeholder = document.getElementById("0"+x+"0"+y).getAttribute("background")
+			if(placeholder == trgbg)
+			{
+				xa=x
+				ya=y
+			}
+			if(placeholder == "0.png")
+			{
+				mobx=x
+				moby=y
+			}
+		}
+	}
+	pos1=mobx-xa
+	pos2=moby-ya
+	if(pos1<2 && pos1 > 0 && document.getElementById("0"+(xa+1)+"0"+ya).getAttribute("background") == "0.png")
+	{
+			document.getElementById("0"+xa+"0"+ya).setAttribute("background","0.png")
+			document.getElementById("0"+mobx+"0"+moby).setAttribute("background",trgbg )
+			//up
+			mc++
+	}if(pos1<0 && pos1 > -2 && document.getElementById("0"+(xa-1)+"0"+ya).getAttribute("background") == "0.png")
+	{
+			document.getElementById("0"+xa+"0"+ya).setAttribute("background","0.png")
+			document.getElementById("0"+mobx+"0"+moby).setAttribute("background",trgbg )
+			//'down');
+			mc++
+	}if(pos2<2 && pos2 > 0 && document.getElementById("0"+xa+"0"+(ya+1)).getAttribute("background") == "0.png")
+	{
+
+			document.getElementById("0"+xa+"0"+ya).setAttribute("background","0.png")
+			document.getElementById("0"+mobx+"0"+moby).setAttribute("background",trgbg )
+			//'left');
+			mc++
+	}
+	if(pos2<0 && pos2 > -2 && document.getElementById("0"+xa+"0"+(ya-1)).getAttribute("background") == "0.png")
+	{
+			document.getElementById("0"+xa+"0"+ya).setAttribute("background","0.png")
+			document.getElementById("0"+mobx+"0"+moby).setAttribute("background",trgbg )
+			//right
+			mc++
+	}
+	gamechk()
+	updatemc()
+	}
+	else{
+		alert('press scramble');
+	}
+}
+function gamechk()
+{
+	var boredchk = [];
+	var count = 0;
+	var wc=0;
+	for(x=0;x<2;x++)
+	{
+		for(y=0;y<2;y++)
+		{
+			boredchk[count] = document.getElementById("0"+x+"0"+y).getAttribute("background")
+			count++
+		}
+	}
+	for(x=0;x<8;x++)
+	{
+		switch (x)
+		{
+			case 0:
+				if(boredchk[x] == "1.png")
+				{
+					wc++
+				}
+ 			break;
+			case 1:
+				if(boredchk[x] == "2.png")
+				{
+					wc++
+				}
+ 			break;
+			case 2:
+				if(boredchk[x] == "3.png")
+				{
+					wc++
+				}
+ 			break;
+			case 3:
+				if(boredchk[x] == "4.png")
+				{
+					wc++
+				}
+ 			break;
+			case 4:
+				if(boredchk[x] == "5.png")
+				{
+					wc++
+				}
+ 			break;
+			case 5:
+				if(boredchk[x] == "6.png")
+				{
+					wc++
+				}
+ 			break;
+			case 6:
+				if(boredchk[x] == "7.png")
+				{
+					wc++
+				}
+ 			break;
+			case 7:
+				if(boredchk[x] == "8.png")
+				{
+					wc++
+				}
+				break;
+				case 8:
+				if(boredchk[x] == "0.png")
+				{
+					wc++
+				}
+ 			break;
+
+		}
+	}
+	if(wc == 8)
+	{
+		alert("winner! it took you "+mc+" move's to solve this puzzle!");
+		document.getElementById("scramble").disabled = false;
+		start = 0
+		mc=0
+		posx = 2;
+		posy = 2;
+		pos2x = 2;
+		pos2y = 2;
+		updatemc()
+	}
+}
+function updatemc()
+{
+	document.getElementById("mc").value = mc
+}
+function scramble()
+{
+	start = 1
+	document.getElementById("scramble").disabled = true;
+	for(x=0;x<500;x++)
+	{
+		var mn =Math.round(Math.random()*100);
+		if(mn<26)//up
+		{
+			if(posx-1 > (-1) && posx-1 <4)
+			{
+				targ = document.getElementById("0"+(posx-1)+"0"+posy).getAttribute("background")
+				document.getElementById("0"+(posx-1)+"0"+posy).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posx--
+				pos2x=posx
+			}else
+			{
+				targ = document.getElementById("0"+(posx+1)+"0"+posy).getAttribute("background")
+				document.getElementById("0"+(posx+1)+"0"+posy).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ)
+				posx++
+				pos2x=posx
+			}
+		}
+		if(mn>25 && mn<51)//down
+		{
+			if(posx+1 > (-1) && posx+1 <4)
+			{
+				targ = document.getElementById("0"+(posx+1)+"0"+posy).getAttribute("background")
+				document.getElementById("0"+(posx+1)+"0"+posy).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posx++
+				pos2x=posx
+			}else
+			{
+				targ = document.getElementById("0"+(posx-1)+"0"+posy).getAttribute("background")
+				document.getElementById("0"+(posx-1)+"0"+posy).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posx--
+				pos2x=posx
+			}
+
+		}
+		if(mn>50 && mn<76)//left +1
+		{
+			if(posy+1 > (-1) && posy+1 <4)
+			{
+				targ = document.getElementById("0"+posx+"0"+(posy+1)).getAttribute("background")
+				document.getElementById("0"+posx+"0"+(posy+1)).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posy++
+				pos2y=posy
+			}else
+			{
+				targ = document.getElementById("0"+posx+"0"+(posy-1)).getAttribute("background")
+				document.getElementById("0"+posx+"0"+(posy-1)).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posy--
+				pos2y=posy
+			}
+
+		}
+		if(mn>75 && mn<101)//right -1
+		{
+			if(posy-1 > (-1) && posy-1 <4)
+			{
+				targ = document.getElementById("0"+posx+"0"+(posy-1)).getAttribute("background")
+				document.getElementById("0"+posx+"0"+(posy-1)).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posy--
+				pos2y=posy
+			}else
+			{
+				targ = document.getElementById("0"+posx+"0"+(posy+1)).getAttribute("background")
+				document.getElementById("0"+posx+"0"+(posy+1)).setAttribute("background","0.png")
+				document.getElementById("0"+pos2x+"0"+pos2y).setAttribute("background",targ )
+				posy++
+				pos2y=posy
+			}
+
+		}
+	}
+}
+</script>
+
+<body bgcolor="white">
+<center>
+ puzzle!
+<table bgcolor="white" cellspacing="0" border="1">
+	<tr>
+			<td id="0000" width="64px" height="64px" background="1.png" onmouseup="slidepiece()">
+			<td id="0001" width="64px" height="64px" background="2.png" onmouseup="slidepiece()">
+			<td id="0002" width="64px" height="64px" background="3.png" onmouseup="slidepiece()">
+			</td>
+		</tr>
+		<tr>
+			<td id="0100" width="64px" height="64px" background="4.png" onmouseup="slidepiece()">
+			<td id="0101" width="64px" height="64px" background="5.png" onmouseup="slidepiece()">
+			<td id="0102" width="64px" height="64px" background="6.png" onmouseup="slidepiece()">
+
+			</td>
+		</tr>
+		<tr>
+			<td id="0200" width="64px" height="64px" background="7.png" onmouseup="slidepiece()">
+			<td id="0201" width="64px" height="64px" background="8.png" onmouseup="slidepiece()">
+			<td id="0202" width="64px" height="64px" background="0.png" onmouseup="slidepiece()">
+			</td>
+		</tr>
+
+
+</table>
+Move count <input type="text" id="mc" value="0" readonly="readonly"><br>
+<input type="button" id="scramble" value="scramble" onclick="scramble()">
+<br>
+<p id="s">slidder</p>
+</center>
+</body>
+</head>
+</html>
